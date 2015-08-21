@@ -25,11 +25,12 @@ else
 return 
 
 <#m::
-IfWinExist , Total Commander 8.0
+IfWinExist , ahk_class TTOTAL_CMD
 {
   ifWinActive
   {
-    WinActivatebottom ,Total Commander
+    WinMinimize, ahk_class TTOTAL_CMD 
+    WinActivatebottom ,ahk_class TTOTAL_CMD 
   }
   else
   {
@@ -106,7 +107,10 @@ return
 IfWinExist ,ahk_class Emacs
 {
 ifWinActive
-WinActivatebottom ,ahk_class Emacs
+{
+    ;WinMinimize, ahk_class Emacs
+    WinActivatebottom ,ahk_class Emacs
+}
 else
 WinActivate
 return
