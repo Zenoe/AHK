@@ -70,6 +70,23 @@ if WinExist("ahk_class Notepad")
 run "notepad"
 return
 
+<#F12::
+if WinExist("ahk_class TXGuiFoundation")
+    {
+    ifWinActive
+        {
+        ;WinActivateBottom, ahk_class TXGuiFoundation
+        ;WinMaximize, ahk_class TXGuiFoundation
+        WinMinimize, ahk_class TXGuiFoundation 
+        }
+    else
+    {
+        WinActivate
+    }
+    return
+}
+return
+
 ;********command line
 #v::
 If WinExist("ahk_class ConsoleWindowClass")
