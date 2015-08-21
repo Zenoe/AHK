@@ -1,6 +1,7 @@
 #SingleInstance Force
-
 SetTitleMatchMode, 2
+;DetectHiddenWindows, on
+
 ;******************Chrome
 <#c::
 IfWinExist ,Chrome
@@ -71,10 +72,10 @@ return
 
 ;********command line
 #v::
-IfWinExist ,cmd.exe
+If WinExist("ahk_class ConsoleWindowClass")
 {
 ifWinActive
-WinActivatebottom ,cmd.exe
+WinActivatebottom , ahk_class ConsoleWindowClass
 else
 WinActivate
 return
