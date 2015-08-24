@@ -140,8 +140,24 @@ Run taskmgr.exe
 return 
 
 ;-----------------------------------------------------
+; <#5::
+; myclip:=clipboard
+; MsgBox clipboard now has the following contents:%clipboard%
+; return
+<#g::
+myclip:=clipboard
+;url:= %https://google.com/search?q=%%myclip%
+; var2:="xxx"
+; var1:="yyy"
+; url:=var2 . var1  two ways of combination
+; url = %var1%%var2%
+;MsgBox, clipboard now has the following contents: %url%
+;Run chrome.exe "https://google.com/search?q=" . myclip // unok
+gurl := "https://google.com/search?q=" . myclip 
+Run chrome.exe %gurl%
+return
+
 <#q:: !F4 ;退出
-<#g::Run https://guge.io
 <#h::Send {Left}
 <#j::Send {Down}
 <#k::Send {Up}
@@ -152,8 +168,8 @@ return
 <#e::Send {End}
 <#n::Send ^{End}
 <#p::Send ^{Home}
->#a::Send {PgUp}
->#e::Send {PgDn}
+<#;::Send {PgUp}
+<#'::Send {PgDn}
 #Capslock::Send {Enter}
 
 ;选择一行 
