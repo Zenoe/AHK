@@ -43,3 +43,22 @@ ActiveWinClass(p_class_name, p_run_path="0", p_param="0")
       return false
   }
 }
+
+ActiveGrpWinClass(p_class_name, p_grp_name, p_run_path)
+{
+IfWinNotExist, ahk_class %p_class_name%
+    Run, %p_run_path%
+GroupAdd, %p_grp_name%, ahk_class %p_class_name%
+;if WinActive("ahk_exe %p_run_path%") ; wrong
+;if WinActivate ahk_exe winword.exe; wrong
+; WinAcitvate ~ is not a command nor function, should be change to
+if WinActive ("ahk_exe %p_run_path%")
+{
+    GroupActivate, %p_grp_name%, r
+}
+else
+{
+    WinActivate ahk_class %p_class_name%
+}
+return
+}

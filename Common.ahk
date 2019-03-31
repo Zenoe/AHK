@@ -215,14 +215,16 @@ Clipboard := MyClip
 return
 
 #c::
-IfWinNotExist, ahk_class Chrome_WidgetWin_1
-    Run, chrome.exe
-GroupAdd, kjexplorers5, ahk_class Chrome_WidgetWin_1 ;You have to make a new group for each application, don't use the same one for all of them!
-if WinActive("ahk_exe chrome.exe")
-    GroupActivate, kjexplorers5, r
-else
-    WinActivate ahk_class Chrome_WidgetWin_1 ;you have to use WinActivatebottom if you didn't create a window group.
-Return
+ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers5", "chrome.exe")
+return
+
+#s::
+ActiveGrpWinClass("XLMAIN", "kjexplorers6", "EXCEL.EXE")
+return
+
+#w::
+ActiveGrpWinClass("OpusApp", "kjexplorers7", "WINWORD.exe")
+return
 
 #n::
 ; msgbox "xx"
