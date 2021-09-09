@@ -1,4 +1,4 @@
-#Include D:\portable\AHK\Common.ahk
+#Include C:\portable\AHK\Common.ahk
 
 ;******************Chrome
 ; 用此法在cygwin 界面上无法切换到chrome, 改用ActiveWinClass
@@ -24,7 +24,7 @@
 return 
 
 <#]::
-run d:/portable/ahk/Autohotkey.ahk
+run c:/portable/ahk/Autohotkey.ahk
 return
 
 

@@ -1,5 +1,5 @@
-﻿#Include d:/portable/AHK/func.ahk
-#Include d:/portable/AHK/rj.ahk
+﻿#Include c:/portable/AHK/func.ahk
+#Include c:/portable/AHK/rj.ahk
 
 #SingleInstance Force
 SetTitleMatchMode, 2
@@ -31,11 +31,14 @@ return
 #+i::Run "C:\WINDOWS\system32\rundll32.exe" shell32.dll`,Control_RunDLL sysdm.cpl
 return
 
-; ;; pdf
-; <#+p::
-; ActiveWinClass("classFoxitReader")
-; return
+;;zeal
+<#+z::
+ActiveWinClass("Qt5QWindowIcon", "C:\portable\zeal-portable-0.6.1-windows-x86\zeal.exe")
+return
 
+<#z::
+ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
+return
 
 ;**************Notepad
 <#o::
@@ -46,35 +49,19 @@ return
 run "notepad"
 return
 
+<#p::
+ActiveWinClass("MozillaWindowClass", "C:\Program Files\Mozilla Firefox\firefox.exe")
+return
 <#f::
-ActiveWinClass("EVERYTHING", "D:\portable\Everything\Everything.exe")
+ActiveWinClass("EVERYTHING", "C:\portable\Everything\Everything.exe")
 return
 
 <#+f::
-ActiveWinClass("EVERYTHING", "D:\portable\Everything\Everything.exe", "Clipboard")
+ActiveWinClass("EVERYTHING", "C:\Program Files\Everything\Everything.exe", "Clipboard")
 return
 
 <#+s::
 run regedit.exe
-return
-
-<#F12::
-ActiveWinClass("TXGuiFoundation")
-return
-
-<#F11::
-if WinExist("ahk_class ahk_class #32770")
-    {
-    ifWinActive
-        {
-        WinMinimize, ahk_class ahk_class #32770
-        }
-    else
-    {
-        WinActivate
-    }
-    return
-}
 return
 
 #v::
@@ -82,12 +69,8 @@ ActiveWinClass("VirtualConsoleClass", "D:\portable\cmder\vendor\conemu-maximus5\
 ; ActiveWinClass("ConsoleWindowClass","cmd.exe")
 return
 
-#x::
-ActiveWinClass("mintty", "D:\portable\.babun\cygwin\bin\mintty.exe")
-return
-
 #+c::
-ActiveWinClass("Chrome_WidgetWin_1", "D:\portable\TOOL\Chromium\chrome.exe")
+ActiveWinClass("Chrome_WidgetWin_1", "C:\portable\TOOL\Chromium\chrome.exe")
 ;ActiveWinClass("Chrome_WidgetWin_1", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
 return
 
@@ -103,18 +86,14 @@ else
 }
 return
 ;-----------------------------------------------------
-#z::
-ActiveWinClass("Emacs", "D:\portable\emacs\bin\runemacs.exe")
-; invoke #z without return would disable win7's drag and drop function
-; it's very important to return
-return
 
-#+z::
-ActiveWinClass("cygwin/x X rl")
-; invoke #z without return would disable win7's drag and drop function
-; it's very important to return
+;#z::
+;ActiveGrpWinClass("cygwin/x X rl", "kjexplorers9", "XWin.exe")
+;return
+;#z::
+;ActiveWinClass("cygwin/x X rl")
+;return
 
-return
 ; if ActiveWinClass("Emacs") = false
 ;   {
 ;     IfWinExist , ahk_class ahk_class mintty
@@ -149,7 +128,7 @@ Run taskmgr.exe
 return 
 
 <#+t::
-Run D:\portable\ProcessExplorer\procexp.exe
+Run C:\portable\ProcessExplorer\procexp.exe
 return
 
 <#q:: !F4 ;退出
@@ -174,7 +153,23 @@ return
 return 
 
 <#space::
-ActiveWinClass("SUMATRA_PDF_FRAME", "D:\portable\SumatraPDF\SumatraPDF.exe")
+if WinExist("ahk_exe wps.exe")
+    {
+    ifWinActive
+        {
+        WinMinimize, ahk_exe wps.exe
+        }
+    else
+    {
+        WinActivate
+    }
+    return
+}
+return
+
+
+<#F11::
+ActiveWinClass("SUMATRA_PDF_FRAME", "C:\portable\SumatraPDF\SumatraPDF.exe")
 return
 
 ; <#n::
@@ -186,14 +181,47 @@ return
 Run shell:RecycleBinFolder
 return
 
-<#+p::
-Run shutdown -s -t 0
-return
+;<#+p::
+;Run shutdown -s -t 0
+;return
 
 ; <#+w::
 ; ; run network explorer
 ; Run explorer.exe ::{208D2C60-3AEA-1069-A2D7-08002B30309D}
 ; return
+
+#+e::
+MyClip := ClipboardAll
+;clipboard =
+Send, ^c
+ClipWait, 2
+if ErrorLevel  ; ClipWait timed out.
+    return
+else{
+    Clipboard = %Clipboard%
+    Run http://www.baidu.com/s?wd=%Clipboard%
+}
+Clipboard := MyClip
+return
+
+#b::
+MyClip := ClipboardAll
+;clipboard =
+Send, ^c
+ClipWait, 2
+if ErrorLevel  ; ClipWait timed out.
+    return
+else{
+    Clipboard = %Clipboard%
+    If RegExMatch(Clipboard, "^(https?://|www\.)[a-zA-Z0-9_\-\.]+\.[a-zA-Z0-9_\-]{1,}[:\d]{0,5}(/\S*)?$"){
+        Run %Clipboard%
+    }
+    Else{
+        Run http://www.baidu.com/s?wd=%Clipboard%
+    }
+}
+Clipboard := MyClip
+return
 
 #g::
 MyClip := ClipboardAll
@@ -204,11 +232,11 @@ if ErrorLevel  ; ClipWait timed out.
     return
 else{
     Clipboard = %Clipboard%
-    If RegExMatch(Clipboard, "^(https?://|www\.)[a-zA-Z0-9_\-\.]+\.[a-zA-Z0-9_\-]{2,}[:\d]{0,5}(/\S*)?$"){
+    If RegExMatch(Clipboard, "^(https?://|www\.)[a-zA-Z0-9_\-\.]+\.[a-zA-Z0-9_\-]{1,}[:\d]{0,5}(/\S*)?$"){
         Run %Clipboard%
     }
     Else{
-        Run http://www.google.com/#hl=en&q=%Clipboard%
+        Run https://www.google.com.hk/search?hl=en&newwindow=1&safe=strict&tbo=d&site=&source=hp&q=%Clipboard%&btnG=Search
     }
 }
 Clipboard := MyClip
@@ -223,8 +251,43 @@ ActiveGrpWinClass("XLMAIN", "kjexplorers6", "EXCEL.EXE")
 return
 
 #w::
-ActiveGrpWinClass("OpusApp", "kjexplorers7", "WINWORD.exe")
+ActiveGrpWinClass("QWidget", "kjexplorers7", "wps.exe")
 return
+
+#x::
+ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "server399")
+return
+; #x::
+; ActiveGrpWinClass("mintty", "kjexplorers8", "mintty.exe")
+; return
+
+<+RButton::
+Send ^{Home}
+return
+
+MButton::
+Send {Enter}
+return
+
+!LButton::
+Send ^a
+Send ^v
+return
+
+~LButton & MButton::
+;
+Send ^{End}
+;MsgBox You Pressed the Middle Button on your mouse.
+return
+
+~LButton & RButton::
+Send ^w
+return
+
+;The tilde ~ prefix makes a hotkey keep its original function
+; ~*q::
+; 	SendEvent, {click}
+; 	return
 
 #n::
 ; msgbox "xx"
@@ -241,3 +304,4 @@ return
 ; SendInput  password
 ; Send {Enter}
 ; return
+

@@ -4,17 +4,20 @@
 ; else
 ;   msgBox "s"
 
-ActiveWinClass(p_class_name, p_run_path="0", p_param="0")
+ActiveWinClass(p_class_name, p_run_path="0", p_param="0", p_title="")
 {
  ;msgBox %p_class_name%
  ; attention: parameters value should be surrond by '%' to eval the value
   
-  ; else select window by its class
-  IfWinExist , ahk_class %p_class_name%
+  ; else select window by its class and title combined with "SetTitleMatchMode, 2"
+  IfWinExist %p_title% ahk_class %p_class_name%
   {
     ifWinActive
     {
-      WinMinimize, ahk_class %p_class_name%
+      ;; put focus onto another window
+      Send, {ALT DOWN}{TAB}{ALT UP}
+      WinMinimize %p_title% ahk_class %p_class_name%
+      
       ; WinGet, Instances, Count, ahk_class %p_class_name%
       ; If Instances > 1
       ;   WinActivateBottom, ahk_class %p_class_name%
@@ -46,9 +49,11 @@ ActiveWinClass(p_class_name, p_run_path="0", p_param="0")
 
 ActiveGrpWinClass(p_class_name, p_grp_name, p_run_path)
 {
-IfWinNotExist, ahk_class %p_class_name%
+; IfWinNotExist, ahk_class %p_class_name%
+IfWinNotExist, ahk_exe %p_run_path%
     Run, %p_run_path%
-GroupAdd, %p_grp_name%, ahk_class %p_class_name%
+; GroupAdd, %p_grp_name%, ahk_class %p_class_name%
+GroupAdd, %p_grp_name%, ahk_exe %p_run_path%
 ;if WinActive("ahk_exe %p_run_path%") ; wrong
 ;if WinActivate ahk_exe winword.exe; wrong
 ; WinAcitvate ~ is not a command nor function, should be change to
@@ -58,7 +63,8 @@ if WinActive ("ahk_exe %p_run_path%")
 }
 else
 {
-    WinActivate ahk_class %p_class_name%
+    ; WinActivate ahk_class %p_class_name%
+    WinActivate ahk_exe %p_run_path%
 }
 return
 }
