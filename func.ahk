@@ -68,3 +68,48 @@ else
 }
 return
 }
+
+
+
+SwitchIME(dwLayout){
+    HKL:=DllCall("LoadKeyboardLayout", Str, dwLayout, UInt, 1)
+    ControlGetFocus,ctl,A
+    SendMessage,0x50,0,HKL,%ctl%,A
+}
+
+
+; a: array contain texts to be sended
+SendInputArray(a) {
+    ; HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\
+    engCode = 0x4090409
+    ; cn Code is different for what return from GetKeyboardLayout (0x8040804)
+    ; I don't know why
+    cnCode := 00000804
+
+    ; get current keyboard layout
+    SetFormat, Integer, H
+    WinGet, WinID,, A
+    ThreadID:=DllCall("GetWindowThreadProcessId", "UInt", WinID, "UInt", 0)
+    InputLocaleID:=DllCall("GetKeyboardLayout", "UInt", ThreadID, "UInt")
+
+    ; switch to english input temporarily
+    SwitchIME(engCode)
+
+    ; By preceding any parameter with % , it becomes an expression.
+    ; msgbox, % a[1] ", " a[2]
+    ; b := a.clone()
+    ; b[1] *= 3
+    ; return b
+
+    for i, text in a
+        SendInput % text
+
+
+    ; restore IME
+    ; if (InputLocaleID = 0x4090409)
+    if (InputLocaleID = engCode)
+        SwitchIME(engCode)
+    else
+        SwitchIME(cnCode)
+    }
+Return

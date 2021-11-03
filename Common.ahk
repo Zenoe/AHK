@@ -116,9 +116,9 @@ return
 ;$CapsLock::ESC
 ;LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
 
-:://b:: 
-  Run http://www.baidu.com
-return 
+:://r::
+  run www.baidu.com
+return
 
 <#t::
 if WinExist Windows 任务
@@ -242,6 +242,10 @@ else{
 Clipboard := MyClip
 return
 
+#n::
+ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers4", "C:\Users\ab\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+return
+
 #c::
 ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers5", "chrome.exe")
 return
@@ -255,11 +259,12 @@ ActiveGrpWinClass("QWidget", "kjexplorers7", "wps.exe")
 return
 
 #x::
-ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "server399")
+ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "")
 return
-; #x::
-; ActiveGrpWinClass("mintty", "kjexplorers8", "mintty.exe")
-; return
+
+#+x::
+ActiveGrpWinClass("mintty", "kjexplorers8", "mintty.exe")
+return
 
 <+RButton::
 Send ^{Home}
@@ -289,19 +294,9 @@ return
 ; 	SendEvent, {click}
 ; 	return
 
-#n::
+#+n::
 ; msgbox "xx"
 cliptext = %clipboard%
 Send ^{t}
 SendInput  %cliptext% {Enter}
 return
-
-
-; #|::
-; Send {TAB}
-; SendInput  linzhengyuan
-; Send {TAB}
-; SendInput  password
-; Send {Enter}
-; return
-

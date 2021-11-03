@@ -1,3 +1,5 @@
+SetTitleMatchMode, 2
+
 #Include C:\portable\AHK\Common.ahk
 
 ;******************Chrome
