@@ -1,9 +1,20 @@
 ﻿#Include c:/portable/AHK/func.ahk
 #Include c:/portable/AHK/rj.ahk
 
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+; #Warn  ; Enable warnings to assist with detecting common errors.
+SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+
+; kill shift+space
+<+space::
+return
+
 #SingleInstance Force
 SetTitleMatchMode, 2
 ;DetectHiddenWindows, on
+
+
 
 ;*************************************
 cos_mousedrag_treshold := 20 ; pixels
@@ -40,6 +51,10 @@ return
 ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
 return
 
+<#n::
+ActiveWinClass("cygwin/x X rl", "", "", "Doom Emacs@abserver")
+return
+
 ;**************Notepad
 <#o::
 ActiveWinClass("Notepad", "Notepad")
@@ -69,22 +84,27 @@ ActiveWinClass("VirtualConsoleClass", "D:\portable\cmder\vendor\conemu-maximus5\
 ; ActiveWinClass("ConsoleWindowClass","cmd.exe")
 return
 
+; #v::
+; ActiveWinClass("Qt5QWindowIcon", "C:\portable\Neovim\bin\nvim-qt.exe")
+; ; ActiveWinClass("ConsoleWindowClass","cmd.exe")
+; return
+
 #+c::
 ActiveWinClass("Chrome_WidgetWin_1", "C:\portable\TOOL\Chromium\chrome.exe")
 ;ActiveWinClass("Chrome_WidgetWin_1", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
 return
 
-#m::
-IfWinExist ,Microsoft Visual Studio
-{
-ifWinActive
-{
-   WinActivatebottom Microsoft Visual Studio
-}
-else
-   WinActivate
-}
-return
+; #m::
+; IfWinExist ,Microsoft Visual Studio
+; {
+; ifWinActive
+; {
+;    WinActivatebottom Microsoft Visual Studio
+; }
+; else
+;    WinActivate
+; }
+; return
 ;-----------------------------------------------------
 
 ;#z::
@@ -116,9 +136,6 @@ return
 ;$CapsLock::ESC
 ;LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
 
-:://r::
-  run www.baidu.com
-return
 
 <#t::
 if WinExist Windows 任务
@@ -139,7 +156,6 @@ return
 <#,::Send ^+{Left} 
 <#.::Send ^+{Right} 
 <#a::Send {Home}
-<#e::Send {End}
 ; <#+P::Send ^{Home}
 ; #Capslock::Send {Enter}
 
@@ -242,9 +258,9 @@ else{
 Clipboard := MyClip
 return
 
-#n::
-ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers4", "C:\Users\ab\AppData\Local\Programs\Microsoft VS Code\Code.exe")
-return
+; #n::
+; ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers4", "C:\Users\ab\AppData\Local\Programs\Microsoft VS Code\Code.exe")
+; return
 
 #c::
 ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers5", "chrome.exe")
@@ -295,8 +311,6 @@ return
 ; 	return
 
 #+n::
-; msgbox "xx"
 cliptext = %clipboard%
-Send ^{t}
 SendInput  %cliptext% {Enter}
 return

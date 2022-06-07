@@ -79,7 +79,7 @@ SwitchIME(dwLayout){
 
 
 ; a: array contain texts to be sended
-SendInputArray(a) {
+SendInputArray(a, t=90) {
     ; HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\
     engCode = 0x4090409
     ; cn Code is different for what return from GetKeyboardLayout (0x8040804)
@@ -102,7 +102,10 @@ SendInputArray(a) {
     ; return b
 
     for i, text in a
+    {
         SendInput % text
+        Sleep t
+    }
 
 
     ; restore IME

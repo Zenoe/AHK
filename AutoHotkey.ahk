@@ -30,17 +30,6 @@ run c:/portable/ahk/Autohotkey.ahk
 return
 
 
-
-; <#+z::
-; run emacsclient "newfile.txt" 
-; return
-;-----------------------------------------------------
-
-
-<#[::
-run emacsclient --no-wait "c:/Documents and Settings/ab/My Documents/AutoHotkey.ahk"
-return
-
 ; #h::
 ;    KeyWait, LWin
 ;    browser="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
