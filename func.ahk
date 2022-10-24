@@ -128,3 +128,21 @@ SendInputArray(a, t=90) {
         SwitchIME(cnCode)
     }
 Return
+
+IME_GET(WinTitle="")
+;-----------------------------------------------------------
+; “获得 Input Method Editors 的状态”
+; 1 是中文， 0 不是中文
+;-----------------------------------------------------------
+{
+    ifEqual WinTitle,,  SetEnv,WinTitle,A
+    WinGet,hWnd,ID,%WinTitle%
+    DefaultIMEWnd := DllCall("imm32\ImmGetDefaultIMEWnd", Uint,hWnd, Uint)
+
+    DetectSave := A_DetectHiddenWindows
+    DetectHiddenWindows,ON
+    SendMessage 0x283, 0x005,0,,ahk_id %DefaultIMEWnd%
+    DetectHiddenWindows,%DetectSave%
+    Return ErrorLevel
+}
+

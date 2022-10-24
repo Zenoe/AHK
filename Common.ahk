@@ -131,7 +131,16 @@ return
 ;CapsLock::ESC
 LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
 
-RShift & CapsLock::SwitchIME(cnCode)
+RShift & CapsLock::
+    ime_s := IME_GET()
+    if (ime_s = 1) {
+        SwitchIME(engCode)
+    }
+    else {
+        SwitchIME(cnCode)
+    }
+    ;SwitchIME(cnCode)
+    return
 
 CapsLock::
 send {Escape}
