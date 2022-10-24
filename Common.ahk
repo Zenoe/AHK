@@ -15,7 +15,6 @@ SetTitleMatchMode, 2
 ;DetectHiddenWindows, on
 
 
-
 ;*************************************
 cos_mousedrag_treshold := 20 ; pixels
 #IfWinNotActive ahk_class ConsoleWindowClass
@@ -47,12 +46,17 @@ return
 ActiveWinClass("Qt5QWindowIcon", "C:\portable\zeal-portable-0.6.1-windows-x86\zeal.exe")
 return
 
-<#z::
+
+<#v::
+ActiveWinClass("Qt5152QWindowIcon", "C:\portable\nvim-win64\bin\nvim-qt.exe")
+return
+
+<#a::
 ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
 return
 
-<#n::
-ActiveWinClass("cygwin/x X rl", "", "", "Doom Emacs@abserver")
+<#z::
+ActiveWinClass("cygwin/x X rl", "", "", "Doom Emacs")
 return
 
 ;**************Notepad
@@ -64,11 +68,8 @@ return
 run "notepad"
 return
 
-<#p::
-ActiveWinClass("MozillaWindowClass", "C:\Program Files\Mozilla Firefox\firefox.exe")
-return
 <#f::
-ActiveWinClass("EVERYTHING", "C:\portable\Everything\Everything.exe")
+ActiveWinClass("EVERYTHING", "C:\Program Files\Everything\Everything.exe")
 return
 
 <#+f::
@@ -79,15 +80,9 @@ return
 run regedit.exe
 return
 
-#v::
-ActiveWinClass("VirtualConsoleClass", "D:\portable\cmder\vendor\conemu-maximus5\ConEmu64.exe")
-; ActiveWinClass("ConsoleWindowClass","cmd.exe")
+#n::
+ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
 return
-
-; #v::
-; ActiveWinClass("Qt5QWindowIcon", "C:\portable\Neovim\bin\nvim-qt.exe")
-; ; ActiveWinClass("ConsoleWindowClass","cmd.exe")
-; return
 
 #+c::
 ActiveWinClass("Chrome_WidgetWin_1", "C:\portable\TOOL\Chromium\chrome.exe")
@@ -133,9 +128,20 @@ return
 ;   }
 ; return
 
-;$CapsLock::ESC
-;LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
+;CapsLock::ESC
+LAlt & Capslock::SetCapsLockState, % GetKeyState("CapsLock", "T") ? "Off" : "On"
 
+RShift & CapsLock::SwitchIME(cnCode)
+
+CapsLock::
+send {Escape}
+; A: for active window
+WinGetTitle, title, A
+If title contains "nvim"
+{
+    SwitchIME(engCode)
+}
+return
 
 <#t::
 if WinExist Windows 任务
@@ -155,7 +161,7 @@ return
 <#;::Send {Right}
 <#,::Send ^+{Left} 
 <#.::Send ^+{Right} 
-<#a::Send {Home}
+; <#a::Send {Home}
 ; <#+P::Send ^{Home}
 ; #Capslock::Send {Enter}
 
@@ -270,9 +276,8 @@ return
 ActiveGrpWinClass("XLMAIN", "kjexplorers6", "EXCEL.EXE")
 return
 
-#w::
-ActiveGrpWinClass("QWidget", "kjexplorers7", "wps.exe")
-return
+; #w::
+; return
 
 #x::
 ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "")
@@ -280,19 +285,6 @@ return
 
 #+x::
 ActiveGrpWinClass("mintty", "kjexplorers8", "mintty.exe")
-return
-
-<+RButton::
-Send ^{Home}
-return
-
-MButton::
-Send {Enter}
-return
-
-!LButton::
-Send ^a
-Send ^v
 return
 
 ~LButton & MButton::
@@ -310,7 +302,8 @@ return
 ; 	SendEvent, {click}
 ; 	return
 
-#+n::
+#+v::
 cliptext = %clipboard%
 SendInput  %cliptext% {Enter}
 return
+

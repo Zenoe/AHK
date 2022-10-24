@@ -16,8 +16,10 @@ ActiveWinClass(p_class_name, p_run_path="0", p_param="0", p_title="")
     {
       ;; put focus onto another window
       Send, {ALT DOWN}{TAB}{ALT UP}
-      WinMinimize %p_title% ahk_class %p_class_name%
-      
+      if(p_class_name <> "cygwin/x X rl"){
+      ;; there seems to be some issue with minimize x window
+         WinMinimize %p_title% ahk_class %p_class_name%
+      }
       ; WinGet, Instances, Count, ahk_class %p_class_name%
       ; If Instances > 1
       ;   WinActivateBottom, ahk_class %p_class_name%
@@ -38,7 +40,16 @@ ActiveWinClass(p_class_name, p_run_path="0", p_param="0", p_title="")
       }
       else
       {
-        run %p_run_path%
+        run %p_run_path%, , , procId
+        ; https://www.autohotkey.com/boards/viewtopic.php?t=84903
+        ; workaround to activate application after lauching it
+        WinWait, ahk_pid %procid%,,30
+        If ErrorLevel
+        {
+        ;msgbox, 0x0,, 824E no window after 30 seconds. Aborting ...
+        return
+        }
+        WinActivate, ahk_pid %procId%
       }
       return true
      }
@@ -78,13 +89,14 @@ SwitchIME(dwLayout){
 }
 
 
-; a: array contain texts to be sended
-SendInputArray(a, t=90) {
     ; HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layouts\
     engCode = 0x4090409
     ; cn Code is different for what return from GetKeyboardLayout (0x8040804)
     ; I don't know why
     cnCode := 00000804
+
+; a: array contain texts to be sended
+SendInputArray(a, t=90) {
 
     ; get current keyboard layout
     SetFormat, Integer, H

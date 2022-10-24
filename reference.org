@@ -1,0 +1,99 @@
+#+TITLE: Reference
+* special character
+^ for Ctrl
+! for Alt
+# for Win
++ for Shift
+
+
+<# for left Win
+
+<#[::
+run emacsclient --no-wait "c:/Documents and Settings/ab/My Documents/AutoHotkey.ahk"
+return
+
+; ctrl+alt+l
+^!l::SendInput linzhengyuan
+
+* hot keys for hot strings
+
+; input immediately
+:*:mytext::123456789
+
+; input not immediately needs another stroke
+::mytext::123456789
+
+; run after input '//rb{enter}' or 'rb{space}'
+:://rb::
+  run www.baidu.com
+return
+
+; run after input '//rb' or 'rb'
+# :*://r::
+#   run www.baidu.com
+# return
+
+* Suspend AutoHotkey
+#ScrollLock::Suspend ; Win + scrollLock
+return
+
+* 使用组合键发送{LShift} (改变输入法) 不起作用
+
+^[::
+   send {LShift} ; alone not work,don't know y.
+   send {left}{LShift} ; work!  多发送一个字符就ok
+return
+
+使用Fx 功能键发送{LShift} 是可以的
+F4::
+  send {LShift} ; work!
+* global value
+
+GIME := 1
+F4::
+if(GIME == 1) {
+    GIME := 0
+}
+Else{
+    GIME := 1
+}
+return
+
+
+* loop through all windows in chrome
+#F10::
+WinActivate, ahk_class Chrome_WidgetWin_1
+WinWaitActive, ahk_class Chrome_WidgetWin_1
+WinGetTitle, CurrentWindowTitle, ahk_class Chrome_WidgetWin_1
+If CurrentWindowTitle contains 172.29.32.10
+		Return
+; else
+Loop
+{
+ Send, ^{Tab}
+ Sleep, 20
+ WinGetTitle, CurrentWindowTitle, ahk_class Chrome_WidgetWin_1
+ If CurrentWindowTitle not contains 172.29.32.10
+ msgbox %CurrentWindowTitle%
+	Continue
+ ; else
+	break
+}
+Return
+* SendInputArray example
+^!8::
+inputs := ["admin", "{enter}", "Ragile123","{enter}"]
+SendInputArray(inputs)
+return
+
+
+^!6::
+; Alt 4 select window 4
+; ctrl u, 1: select right panel
+inputs := ["!4", "^]", "u", "1", "{Up}", "{enter}", "!l", "{Up}", "{enter}"]
+SendInputArray(inputs, 20)
+return
+
+* Open Downloads folder
+^+d::Run "C:\Users\ab\Downloads" ; ctrl+shift+d
+return
