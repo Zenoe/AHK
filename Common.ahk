@@ -9,10 +9,6 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 <+space::
 return
 
-<#]::
-run c:/dotfiles/ahk/local.ahk
-return
-
 #SingleInstance Force
 SetTitleMatchMode, 2
 ;DetectHiddenWindows, on
