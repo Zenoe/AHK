@@ -1,6 +1,6 @@
 SetTitleMatchMode, 2
 
-#Include C:\portable\AHK\Common.ahk
+#Include C:\dotfiles\AHK\Common.ahk
 
 ;******************Chrome
 ; 用此法在cygwin 界面上无法切换到chrome, 改用ActiveWinClass
@@ -26,7 +26,7 @@ SetTitleMatchMode, 2
 return 
 
 <#]::
-run c:/portable/ahk/Autohotkey.ahk
+run c:/dotfiles/ahk/Autohotkey.ahk
 return
 
 

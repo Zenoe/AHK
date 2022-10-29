@@ -1,5 +1,5 @@
-﻿#Include c:/portable/AHK/func.ahk
-#Include c:/portable/AHK/rj.ahk
+﻿#Include c:/dotfiles/AHK/func.ahk
+#Include c:/dotfiles/AHK/rj.ahk
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
@@ -249,6 +249,26 @@ else{
     }
     Else{
         Run http://www.baidu.com/s?wd=%Clipboard%
+    }
+}
+Clipboard := MyClip
+return
+
+
+#y::
+MyClip := ClipboardAll
+;clipboard =
+Send, ^c
+ClipWait, 2
+if ErrorLevel  ; ClipWait timed out.
+    return
+else{
+    Clipboard = %Clipboard%
+    If RegExMatch(Clipboard, "^(https?://|www\.)[a-zA-Z0-9_\-\.]+\.[a-zA-Z0-9_\-]{1,}[:\d]{0,5}(/\S*)?$"){
+        Run %Clipboard%
+    }
+    Else{
+        Run http://www.yandex.com/search/?text=%Clipboard%
     }
 }
 Clipboard := MyClip
