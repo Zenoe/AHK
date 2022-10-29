@@ -1,5 +1,4 @@
 ﻿#Include c:/dotfiles/AHK/func.ahk
-#Include c:/dotfiles/AHK/rj.ahk
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
