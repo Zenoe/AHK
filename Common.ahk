@@ -47,15 +47,11 @@ return
 
 
 <#v::
-ActiveWinClass("Qt5152QWindowIcon", "C:\portable\nvim-win64\bin\nvim-qt.exe")
+ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
 return
 
 <#a::
 ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
-return
-
-<#z::
-ActiveWinClass("cygwin/x X rl", "", "", "Doom Emacs")
 return
 
 ;**************Notepad
@@ -104,9 +100,14 @@ return
 ;#z::
 ;ActiveGrpWinClass("cygwin/x X rl", "kjexplorers9", "XWin.exe")
 ;return
-;#z::
+#z::
 ;ActiveWinClass("cygwin/x X rl")
-;return
+ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "1:")
+return
+
+#x::
+ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "0:")
+return
 
 ; if ActiveWinClass("Emacs") = false
 ;   {
@@ -141,15 +142,27 @@ RShift & CapsLock::
     ;SwitchIME(cnCode)
     return
 
-CapsLock::
-send {Escape}
-; A: for active window
-WinGetTitle, title, A
-If title contains "nvim"
+CapsLock::LCtrl
+
+;-- when pressing CapsLock alone, it will activate the Escpae button
+Capslock Up::
+SendInput, {LControl Up}  ;--For stability
+If A_TimeSincePriorHotkey < 150
 {
-    SwitchIME(engCode)
+  SendInput, {Escape}
 }
+Else
 return
+return
+; CapsLock::
+; send {Escape}
+; ; A: for active window
+; WinGetTitle, title, A
+; If title contains "nvim"
+; {
+;     SwitchIME(engCode)
+; }
+; return
 
 <#t::
 if WinExist Windows 任务
@@ -306,10 +319,6 @@ return
 
 ; #w::
 ; return
-
-#x::
-ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "")
-return
 
 #+x::
 ActiveGrpWinClass("mintty", "kjexplorers8", "mintty.exe")
