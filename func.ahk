@@ -98,6 +98,11 @@ SwitchIME(dwLayout){
 ; a: array contain texts to be sended
 SendInputArray(a, t=90) {
 
+    engCode = 0x4090409
+    ; cnCode should be put inside this function. otherwise  SwitchIME(cnCode) will not work
+    cnCode := 00000804
+
+    SwitchIME(engCode)
     ; get current keyboard layout
     SetFormat, Integer, H
     WinGet, WinID,, A
@@ -119,15 +124,11 @@ SendInputArray(a, t=90) {
         Sleep t
     }
 
+    SwitchIME(cnCode)
+    Return
 
-    ; restore IME
-    ; if (InputLocaleID = 0x4090409)
-    if (InputLocaleID = engCode)
-        SwitchIME(engCode)
-    else
-        SwitchIME(cnCode)
-    }
-Return
+}
+
 
 IME_GET(WinTitle="")
 ;-----------------------------------------------------------
@@ -146,3 +147,81 @@ IME_GET(WinTitle="")
     Return ErrorLevel
 }
 
+
+ActivateWindowFuzzy(title, targetClass := "", executablePath := "", parameter := "")
+{
+  WinGet, activeWindow, ID, A
+
+  WinGet, windowList, List
+
+  Loop, %windowList%
+  {
+    thisTitle := ""
+    thisClass := ""
+    WinGetTitle, thisTitle, % "ahk_id " windowList%A_Index%
+    WinGetClass, thisClass, % "ahk_id " windowList%A_Index%
+
+    if (RegExMatch(thisTitle, "i)" . title) && (targetClass = "" || thisClass = targetClass))
+    {
+      if (windowList%A_Index% = activeWindow)
+      {
+        WinMinimize, % "ahk_id " windowList%A_Index%
+      }
+      else
+      {
+        WinActivate, % "ahk_id " windowList%A_Index%
+      }
+      return
+    }
+  }
+
+  if (executablePath != "")
+  {
+    Run, %executablePath% %parameter%
+  }
+}
+
+ActivateChromeTab(tabTitle)
+{
+  ; Activate Chrome window
+  WinActivate, ahk_class Chrome_WidgetWin_1
+
+  ; Wait for Chrome to become the active window
+  WinWaitActive, ahk_class Chrome_WidgetWin_1
+
+  ; Get the title of the current tab
+  WinGetTitle, currentTitle, ahk_class Chrome_WidgetWin_1
+
+  ; Check if the current tab's title already contains the desired text
+  if (InStr(currentTitle, tabTitle) > 0)
+  {
+    ; The desired tab is already active, exit the function
+    return
+  }
+
+  ; Send Ctrl+1 to switch to the first tab
+  SendInput, ^1
+
+  ; Wait for the tab to load
+  Sleep, 50
+  
+  ; Send Ctrl+Tab to cycle through the tabs until the desired tab is found
+  Loop
+  {
+    ; Get the title of the current tab
+    WinGetTitle, currentTitle, ahk_class Chrome_WidgetWin_1
+
+    ; Check if the current tab's title matches the desired title
+    if (InStr(currentTitle, tabTitle) > 0)
+    {
+      ; The desired tab is found, exit the loop
+      break
+    }
+
+    ; Send Ctrl+Tab to switch to the next tab
+    SendInput, ^{Tab}
+
+    ; Wait for the tab to load
+    Sleep, 50
+  }
+}

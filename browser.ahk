@@ -1,8 +1,4 @@
 
-<#u::
-gurl := "http://localhost:8000"
-Run firefox.exe %gurl%
-return
 
 
 <#p::
@@ -40,5 +36,10 @@ return
 <#b::
 myclip:=clipboard
 gurl := """https://www.baidu.com/s?&wd=" . myclip . """"
+Run chrome.exe %gurl%
+return
+
+<#g::
+gurl := "http://localhost:8000"
 Run chrome.exe %gurl%
 return

@@ -47,9 +47,13 @@ return
 
 
 <#v::
-ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
+ActiveWinClass("MozillaWindowClass", "C:\Program Files\Mozilla Firefox\firefox.exe")
+;ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
 return
 
+<#+v::
+ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
+return
 <#a::
 ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
 return
@@ -84,31 +88,27 @@ ActiveWinClass("Chrome_WidgetWin_1", "C:\portable\TOOL\Chromium\chrome.exe")
 ;ActiveWinClass("Chrome_WidgetWin_1", "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")
 return
 
-; #m::
-; IfWinExist ,Microsoft Visual Studio
-; {
-; ifWinActive
-; {
-;    WinActivatebottom Microsoft Visual Studio
-; }
-; else
-;    WinActivate
-; }
-; return
-;-----------------------------------------------------
+#m::
+ActiveWinClass("HwndWrapper[DefaultDomain;;fe61d881-aab5-46f3-82c9-e6b85f294cf4]", "devenv.exe")
+return
 
 ;#z::
 ;ActiveGrpWinClass("cygwin/x X rl", "kjexplorers9", "XWin.exe")
 ;return
-#z::
-;ActiveWinClass("cygwin/x X rl")
-ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "1:")
-return
 
 #x::
-ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "0:")
+;ActiveWinClass("mintty", "C:\Apps\cygwin\bin\mintty.exe", "0", "0:")
+ActivateWindowFuzzy("ab2", "mintty", "C:\Apps\cygwin\bin\mintty.exe")
 return
 
+#z::
+ActivateWindowFuzzy("MINGW64", "mintty", "C:\Program Files\Git\git-bash.exe")
+return
+
+
+#e::
+ActiveWinClass("SWT_Window0", "eclipse.exe", "", "")
+return
 ; if ActiveWinClass("Emacs") = false
 ;   {
 ;     IfWinExist , ahk_class ahk_class mintty
@@ -311,6 +311,7 @@ return
 
 #c::
 ActiveGrpWinClass("Chrome_WidgetWin_1", "kjexplorers5", "chrome.exe")
+; ActivateWindowFuzzy("Testsdn", "Chrome_WidgetWin_1", "chrome.exe")
 return
 
 #s::
@@ -344,3 +345,13 @@ cliptext = %clipboard%
 SendInput  %cliptext% {Enter}
 return
 
+#[::
+ActivateChromeTab("Testsdn")
+return
+
+
+; Reload the script
+#{::
+scriptPath :="C:\dotfiles\AHK\work.ahk"
+Reload %scriptPath%
+return
