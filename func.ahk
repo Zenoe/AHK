@@ -16,7 +16,7 @@ ActiveWinClass(p_class_name, p_run_path="0", p_param="0", p_title="")
     {
       ;; put focus onto another window
       Send, {ALT DOWN}{TAB}{ALT UP}
-      if(p_class_name <> "cygwin/x X rl"){
+      if(p_class_name <> "mintty"){
       ;; there seems to be some issue with minimize x window
          WinMinimize %p_title% ahk_class %p_class_name%
       }
@@ -163,7 +163,7 @@ ActivateWindowFuzzy(title, targetClass := "", executablePath := "", parameter :=
 
     if (RegExMatch(thisTitle, "i)" . title) && (targetClass = "" || thisClass = targetClass))
     {
-      if (windowList%A_Index% = activeWindow)
+      if (windowList%A_Index% = activeWindow) && (targetClass <> "mintty")
       {
         WinMinimize, % "ahk_id " windowList%A_Index%
       }

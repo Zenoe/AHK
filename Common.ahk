@@ -55,7 +55,8 @@ return
 ActiveWinClass("VirtualConsoleClass", "C:\portable\cmder\Cmder.exe")
 return
 <#a::
-ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
+;;ActiveWinClass("Emacs", "C:\portable\emacs\bin\runemacs.exe")
+ActiveWinClass("Emacs", "C:\emacs\bin\runemacs.exe")
 return
 
 ;**************Notepad
